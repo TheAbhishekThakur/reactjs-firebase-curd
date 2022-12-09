@@ -1,3 +1,6 @@
 .home {
-    background-color: blue;
+  display: flex;
+  .home-container {
+    flex: 6;
+  }
 }
