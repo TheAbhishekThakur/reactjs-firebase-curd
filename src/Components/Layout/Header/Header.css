@@ -1,0 +1,28 @@
+.header-con {
+  position: sticky;
+  z-index: 999;
+  top: -10px;
+  box-shadow: 0 -6px 10px 5px rgb(255, 255, 255);
+  background-color: #ffffff;
+  color: black;
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input{
+  width: 100%;
+}
+.list {
+  display: flex;
+}
+
+.list-item:first-child {
+  padding-left: 0px;
+}
+
+.list-item {
+  padding-left: 40px;
+}
