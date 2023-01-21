@@ -1,6 +1,18 @@
 .sidemenu-con {
-  box-shadow:rgb(255, 255, 255);
-  background-color: #FFFFFF;
-  color: black;
+  background-color: #2a2b2e;
+  color: #fff;
   height: 100vh;
+}
+
+.sidebar {
+}
+
+.sidebar-item {
+  list-style: none;
+  cursor: pointer;
+  padding-top: 30px;
+}
+
+.sidebar-item:hover {
+  background-color: blue;
 }

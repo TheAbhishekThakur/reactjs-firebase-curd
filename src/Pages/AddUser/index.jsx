@@ -66,11 +66,11 @@ function AddNewUser() {
   };
   return (
     <Layout>
-      <div className="container pt-4 pb-4 card">
+      <div className="p-4">
         <div className="d-flex justify-content-center aligin-item-center">
-          <h3>Add New User</h3>
+          <h3 className="new-user-heading">Add New User</h3>
         </div>
-        <div className="row">
+        <div className="row mt-3">
           <div className="col-md-4 text-center">
             <div className="avatar-con">
               <div className="avatar">
@@ -78,7 +78,7 @@ function AddNewUser() {
               </div>
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8 right">
             <form onSubmit={onSubmit}>
               <div className="row g-3 mb-3">
                 <div className="col">

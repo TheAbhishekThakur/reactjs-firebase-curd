@@ -26,7 +26,7 @@ const Header = () => {
           <div className="col-md-3">
             <div className="list">
               <div className="list-item">
-                <GrLanguage />
+                <GrLanguage style={{ color: "white" }} />
                 English
               </div>
               <div className="list-item">

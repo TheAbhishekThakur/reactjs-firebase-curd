@@ -1,4 +1,5 @@
 import React from "react";
+import "./Layout.css";
 import Header from "./Header";
 import SideMenu from "./SideMenu";
 
@@ -11,10 +12,10 @@ function Layout({ children }) {
         </div>
       </div>
       <div className="row">
-        <div className="col-2">
+        <div className="col-2" style={{ paddingRight: "0px" }}>
           <SideMenu />
         </div>
-        <div className="col-10">{children}</div>
+        <div className="col-10 layout">{children}</div>
       </div>
     </div>
   );
