@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
+import { useState, useEffect } from "react";
 import Layout from "../../Components/Layout";
-import DataTable from "react-data-table-component";
+import Box from "@mui/material/Box";
+import { DataGrid } from "@mui/x-data-grid";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { Container } from "@mui/system";
+import { Typography } from "@mui/material";
+import Button from '@mui/material/Button';
 
 function UserList() {
   const [users, setUsers] = useState([]);
@@ -20,38 +25,62 @@ function UserList() {
   };
 
   const columns = [
+    { field: "id", headerName: "ID", width: 150 },
     {
-      name: "ID",
-      selector: (row) => row.id,
+      field: "name",
+      headerName: "Name",
+      width: 160,
+      editable: true,
     },
     {
-      name: "User",
-      selector: (row) => row.name,
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      editable: true,
     },
     {
-      name: "Email",
-      selector: (row) => row.email,
+      field: "phone",
+      headerName: "Phone",
+      type: "number",
+      width: 120,
+      editable: true,
     },
     {
-      name: "Age",
-      selector: (row) => "0",
+      field: "country",
+      headerName: "Country",
+      type: "string",
+      width: 150,
     },
     {
-      name: "Status",
-      selector: (row) => checkStatus(row.status),
+      field: "address",
+      headerName: "Address",
+      type: "string",
+      width: 120,
     },
     {
-      name: "Action",
-      selector: (row) => (
-        <div>
-          <button type="button" className="btn btn-outline-primary">
-            EDIT
-          </button>
-          &nbsp;&nbsp;
-          <button type="button" className="btn btn-outline-danger">
+      field: "",
+      headerName: "Action",
+      type: "",
+      width: 200,
+      renderCell: (params) => (
+        <>
+          <Button
+            variant="outlined"
+            size="small"
+            tabIndex={params.hasFocus ? 0 : -1}
+          >
+            VIEW
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            style={{ marginLeft: 10 }}
+            tabIndex={params.hasFocus ? 0 : -1}
+          >
             DELETE
-          </button>
-        </div>
+          </Button>
+        </>
       ),
     },
   ];
@@ -75,9 +104,25 @@ function UserList() {
   return (
     <div>
       <Layout>
-        <div className="card m-5">
-          <DataTable columns={columns} data={users} />
-        </div>
+        <Container>
+          <Box sx={{ height: 400, width: "100%", marginTop: "50px" }}>
+            <Box sx={{ display: 'flex' }}>
+              <Typography variant="h5" component="div">
+                USER LIST
+              </Typography>
+              <Button sx={{ alignItems: "flex-end" }} variant="contained">ADD USER</Button>
+            </Box>
+            <DataGrid
+              rows={users}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              checkboxSelection
+              disableSelectionOnClick
+              experimentalFeatures={{ newEditingApi: true }}
+            />
+          </Box>
+        </Container>
       </Layout>
     </div>
   );

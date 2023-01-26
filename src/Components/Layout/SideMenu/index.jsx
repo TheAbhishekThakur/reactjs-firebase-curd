@@ -1,31 +1,61 @@
-import React from "react";
-import "./SideMenu.css";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import { useNavigate } from "react-router-dom";
 
-const SideMenu = () => {
+export default function SideMenu({ toggle, setToggle }) {
   const navigate = useNavigate();
-  const goToPage = (page) => {
+  const list = [
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Users", path: "/users" },
+    { name: "Products", path: "/products" },
+    { name: "Orders", path: "/orders" },
+    { name: "Delivery", path: "/delivery" },
+    { name: "Stats", path: "/stats" },
+    { name: "Notifications", path: "/notifications" },
+    { name: "Settings", path: "/settings" },
+    { name: "Profile", path: "/profile" },
+    { name: "Logout", path: "/logout" },
+  ];
+
+  const gotoPage = (page) => {
     navigate(page);
   };
   return (
-    <div className="sidemenu-con">
-      <ul className="sidebar">
-        <li className="sidebar-item" onClick={() => goToPage("/dashboard")}>
-          Dashboard
-        </li>
-        <li className="sidebar-item" onClick={() => goToPage("/users")}>
-          Users
-        </li>
-        <li className="sidebar-item">Products</li>
-        <li className="sidebar-item">Orders</li>
-        <li className="sidebar-item">Delivery</li>
-        <li className="sidebar-item">Notifications</li>
-        <li className="sidebar-item">Settings</li>
-        <li className="sidebar-item">Profile</li>
-        <li className="sidebar-item">Logout</li>
-      </ul>
+    <div>
+      <React.Fragment>
+        <Drawer anchor="left" open={toggle} onClose={() => setToggle(false)}>
+          <Box sx={{ width: 250 }} role="presentation">
+            <List>
+              {list?.map((item, index) => (
+                <>
+                  <ListItem
+                    key={item.name}
+                    disablePadding
+                    onClick={() => gotoPage(item.path)}
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={item.name} />
+                    </ListItemButton>
+                  </ListItem>
+                  <Divider />
+                </>
+              ))}
+            </List>
+          </Box>
+        </Drawer>
+      </React.Fragment>
     </div>
   );
-};
-
-export default SideMenu;
+}

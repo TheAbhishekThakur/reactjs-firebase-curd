@@ -4,20 +4,13 @@ import Header from "./Header";
 import SideMenu from "./SideMenu";
 
 function Layout({ children }) {
+  const [toggle, setToggle] = React.useState(false);
   return (
-    <div>
-      <div className="row">
-        <div className="col-12">
-          <Header />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-2" style={{ paddingRight: "0px" }}>
-          <SideMenu />
-        </div>
-        <div className="col-10 layout">{children}</div>
-      </div>
-    </div>
+    <>
+      <Header setToggle={setToggle} />
+      <SideMenu toggle={toggle} setToggle={setToggle} />
+      {children}
+    </>
   );
 }
 
