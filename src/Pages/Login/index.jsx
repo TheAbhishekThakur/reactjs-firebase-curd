@@ -1,15 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import "./Login.css";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import { Box, TextField, Button, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const LoginContainer = styled(Box)(({ theme }) => ({
+    "box-shadow": "0 3px 10px rgb(0 0 0 / 0.2)",
+    padding: "50px",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    "-ms-transform": "translateX(-50%) translateY(-50%)",
+    "-webkit-transform": "translate(-50%,-50%)",
+    transform: "translate(-50%,-50%)",
+  }));
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -29,48 +41,48 @@ const Login = () => {
       });
   };
   return (
-    <div className="conatiner">
-      <div className="card login-card">
-        <div className="card-body">
-          <h1 className="d-flex justify-content-center">LOGIN</h1>
-          <form onSubmit={onSubmit}>
-            <div className="form-group mb-3">
-              <label htmlFor="exampleInputEmail1">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="abc@gmail.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="exampleInputPassword1">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="exampleInputPassword1"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary">
-                LOGIN
-              </button>
-            </div>
-            {error && (
-              <div className="text-center mt-5 text-danger">{error}</div>
-            )}
-          </form>
-        </div>
-      </div>
-    </div>
+    <Box bgcolor="#ccc">
+      <LoginContainer>
+        <Typography
+          sx={{ marginBottom: "20px", textAlign: "center" }}
+          variant="h6"
+        >
+          LOGIN
+        </Typography>
+        <Box>
+          <TextField
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            label="Email"
+            variant="outlined"
+            sx={{ width: "320px" }}
+          />
+        </Box>
+        <Box sx={{ marginTop: "30px" }}>
+          <TextField
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            label="Password"
+            variant="outlined"
+            sx={{ width: "320px" }}
+          />
+        </Box>
+        <Box sx={{ marginTop: "30px", textAlign: "center" }}>
+          <Button variant="contained" onClick={onSubmit}>
+            LOGIN
+          </Button>
+        </Box>
+
+        {error && (
+          <Box
+            sx={{ marginTop: "30px", textAlign: "center", color: "red" }}
+            className="text-center mt-5 text-danger"
+          >
+            {error}
+          </Box>
+        )}
+      </LoginContainer>
+    </Box>
   );
 };
 

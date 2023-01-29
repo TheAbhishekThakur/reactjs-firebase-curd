@@ -10,7 +10,20 @@ import {
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
-import { RxAvatar } from "react-icons/rx";
+import {
+  Box,
+  TextField,
+  Button,
+  InputAdornment,
+  OutlinedInput,
+  Typography,
+} from "@mui/material";
+// import FormControl from "@mui/material/FormControl";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import { styled } from "@mui/material/styles";
+import { Container } from "@mui/system";
 
 function AddNewUser() {
   const [file, setFile] = useState(null);
@@ -23,6 +36,27 @@ function AddNewUser() {
     address: "",
     country: "",
   });
+  const [showPassword, setShowPassword] = useState(true);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const Row = styled(Box)(({ theme }) => ({
+    marginTop: "30px",
+  }));
+
+  // const AvatarContainer = styled(Box)(({ theme }) => ({
+  //   position: "absolute",
+  //   top: "50%",
+  //   left: "50%",
+  //   "-ms-transform": "translateX(-50%) translateY(-50%)",
+  //   "-webkit-transform": "translate(-50%,-50%)",
+  //   transform: "translate(-50%,-50%)",
+  // }));
+
+  const AddContainer = styled(Box)(({ theme }) => ({
+    padding: "30px",
+    "box-shadow": "0 3px 10px rgb(0 0 0 / 0.2)",
+  }));
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -66,189 +100,151 @@ function AddNewUser() {
   };
   return (
     <Layout>
-      <div className="p-4">
-        <div className="d-flex justify-content-center aligin-item-center">
-          <h3 className="new-user-heading">Add New User</h3>
-        </div>
-        <div className="row mt-3">
-          <div className="col-md-4 text-center">
-            <div className="avatar-con">
-              <div className="avatar">
-                <RxAvatar className="avatar-logo" />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-8 right">
-            <form onSubmit={onSubmit}>
-              <div className="row g-3 mb-3">
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput1"
-                    className="form-label"
-                  >
-                    Image
-                  </label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    placeholder="image"
-                    aria-label="exampleFormControlInput1"
-                    // required
-                    // value={file}
-                    // onChange={(e) => setFile(e.target.files[0])}
-                  />
-                </div>
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput2"
-                    className="form-label"
-                  >
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="jhon_doe"
-                    aria-label="exampleFormControlInput2"
-                    required
-                    value={userData.username}
-                    onChange={(e) => {
-                      setUserData({ ...userData, username: e.target.value });
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="row g-3 mb-3">
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput3"
-                    className="form-label"
-                  >
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Jhon Doe"
-                    aria-label="exampleFormControlInput3"
-                    required
-                    value={userData.name}
-                    onChange={(e) => {
-                      setUserData({ ...userData, name: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput4"
-                    className="form-label"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="jhon_doe@gmail.com"
-                    aria-label="exampleFormControlInput4"
-                    required
-                    value={userData.email}
-                    onChange={(e) => {
-                      setUserData({ ...userData, email: e.target.value });
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="row g-3 mb-3">
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput5"
-                    className="form-label"
-                  >
-                    Phone
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="+12345 65678"
-                    aria-label="exampleFormControlInput5"
-                    required
-                    value={userData.phone}
-                    onChange={(e) => {
-                      setUserData({ ...userData, phone: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput6"
-                    className="form-label"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder=""
-                    aria-label="exampleFormControlInput6"
-                    required
-                    value={userData.password}
-                    onChange={(e) => {
-                      setUserData({ ...userData, password: e.target.value });
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="row g-3 mb-3">
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput7"
-                    className="form-label"
-                  >
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Noid, 1st cross"
-                    aria-label="exampleFormControlInput7"
-                    required
-                    value={userData.address}
-                    onChange={(e) => {
-                      setUserData({ ...userData, address: e.target.value });
-                    }}
-                  />
-                </div>
-                <div className="col">
-                  <label
-                    htmlFor="exampleFormControlInput8"
-                    className="form-label"
-                  >
-                    Country
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="India"
-                    aria-label="exampleFormControlInput8"
-                    required
-                    value={userData.country}
-                    onChange={(e) => {
-                      setUserData({ ...userData, country: e.target.value });
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="row text-center mt-5">
-                <div className="col-md-12">
-                  <button type="submit" className="btn btn-primary">
-                    ADD USER
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Container sx={{ paddingTop: "30px" }}>
+        <AddContainer>
+          <Typography variant="h6" sx={{ textAlign: "center" }}>ADD NEW USER</Typography>
+          <Box sx={{ display: "flex" }}>
+            <Box flex={4}>{/* <AvatarContainer>gdfg</AvatarContainer> */}</Box>
+            <Box flex={8}>
+              {/* <FormControl variant="standard"> */}
+              <Row>
+                <Box sx={{ display: "flex", gap: "20px" }}>
+                  <Box flex={6}>
+                    <TextField
+                      type="file"
+                      label=""
+                      variant="outlined"
+                      // sx={{ width: "100%" }}
+                      required
+                      onChange={(e)=>setFile(e.target.files[0])}
+                    />
+                  </Box>
+                  <Box flex={6}>
+                    <TextField
+                      type="text"
+                      label="Username"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.username}
+                      onChange={(e) => {
+                        setUserData({...userData, username: e.target.value})
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Row>
+              <Row>
+                <Box sx={{ display: "flex", gap: "20px" }}>
+                  <Box flex={6}>
+                    <TextField
+                      type="text"
+                      label="Name"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.name}
+                      onChange={(e) => {
+                        setUserData({...userData, name: e.target.value})
+                      }}
+                    />
+                  </Box>
+                  <Box flex={6}>
+                    <TextField
+                      type="email"
+                      label="Email"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.email}
+                      onChange={(e) => {
+                        setUserData({...userData, email: e.target.value})
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Row>
+              <Row>
+                <Box sx={{ display: "flex", gap: "20px" }}>
+                  <Box flex={6}>
+                    <TextField
+                      type="phone"
+                      label="Phone"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.phone}
+                      onChange={(e) => {
+                        setUserData({...userData, phone: e.target.value})
+                      }}
+                    />
+                  </Box>
+                  <Box flex={6}>
+                    <OutlinedInput
+                      sx={{ width: "100%" }}
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      value={userData.password}
+                      onChange={(e) => {
+                        setUserData({...userData, password: e.target.value})
+                      }}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                  </Box>
+                </Box>
+              </Row>
+              <Row>
+                <Box sx={{ display: "flex", gap: "20px" }}>
+                  <Box flex={6}>
+                    <TextField
+                      type="text"
+                      label="Address"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.address}
+                      onChange={(e) => {
+                        setUserData({...userData, address: e.target.value})
+                      }}
+                    />
+                  </Box>
+                  <Box flex={6}>
+                    <TextField
+                      type="text"
+                      label="Country"
+                      variant="outlined"
+                      sx={{ width: "100%" }}
+                      value={userData.country}
+                      onChange={(e) => {
+                        setUserData({...userData, country: e.target.value})
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Row>
+              {/* </FormControl> */}
+              <Box
+                sx={{
+                  display: "flex",
+                  marginTop: "30px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Button variant="contained" onClick={onSubmit}>
+                  ADD USER
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </AddContainer>
+      </Container>
     </Layout>
   );
 }
