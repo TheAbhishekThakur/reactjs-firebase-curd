@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./AddUser.css";
 import Layout from "../../Components/Layout";
 import {
   doc,
@@ -18,12 +17,13 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-// import FormControl from "@mui/material/FormControl";
+import { styled } from "@mui/material/styles";
+import { Container } from "@mui/system";
+import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import { styled } from "@mui/material/styles";
-import { Container } from "@mui/system";
+
 
 function AddNewUser() {
   const [file, setFile] = useState(null);
@@ -55,7 +55,7 @@ function AddNewUser() {
 
   const AddContainer = styled(Box)(({ theme }) => ({
     padding: "30px",
-    "box-shadow": "0 3px 10px rgb(0 0 0 / 0.2)",
+    boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
   }));
 
   const onSubmit = async (e) => {
@@ -98,6 +98,7 @@ function AddNewUser() {
       console.error(err);
     }
   };
+  console.log("userData", userData);
   return (
     <Layout>
       <Container sx={{ paddingTop: "30px" }}>
@@ -114,9 +115,9 @@ function AddNewUser() {
                       type="file"
                       label=""
                       variant="outlined"
-                      // sx={{ width: "100%" }}
-                      required
-                      onChange={(e)=>setFile(e.target.files[0])}
+                      fullWidth
+                      // required
+                      // onChange={(e)=>setFile(e.target.files[0])}
                     />
                   </Box>
                   <Box flex={6}>
@@ -124,7 +125,7 @@ function AddNewUser() {
                       type="text"
                       label="Username"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.username}
                       onChange={(e) => {
                         setUserData({...userData, username: e.target.value})
@@ -140,7 +141,7 @@ function AddNewUser() {
                       type="text"
                       label="Name"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.name}
                       onChange={(e) => {
                         setUserData({...userData, name: e.target.value})
@@ -152,7 +153,7 @@ function AddNewUser() {
                       type="email"
                       label="Email"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.email}
                       onChange={(e) => {
                         setUserData({...userData, email: e.target.value})
@@ -168,7 +169,7 @@ function AddNewUser() {
                       type="phone"
                       label="Phone"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.phone}
                       onChange={(e) => {
                         setUserData({...userData, phone: e.target.value})
@@ -177,7 +178,7 @@ function AddNewUser() {
                   </Box>
                   <Box flex={6}>
                     <OutlinedInput
-                      sx={{ width: "100%" }}
+                      fullWidth
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
                       value={userData.password}
@@ -207,7 +208,7 @@ function AddNewUser() {
                       type="text"
                       label="Address"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.address}
                       onChange={(e) => {
                         setUserData({...userData, address: e.target.value})
@@ -219,9 +220,10 @@ function AddNewUser() {
                       type="text"
                       label="Country"
                       variant="outlined"
-                      sx={{ width: "100%" }}
+                      fullWidth
                       value={userData.country}
                       onChange={(e) => {
+                        console.log("e")
                         setUserData({...userData, country: e.target.value})
                       }}
                     />

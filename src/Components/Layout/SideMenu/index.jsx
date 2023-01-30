@@ -36,7 +36,7 @@ export default function SideMenu({ toggle, setToggle }) {
           <Box sx={{ width: 250 }} role="presentation">
             <List>
               {list?.map((item, index) => (
-                <>
+                <div key={index}>
                   <ListItem
                     key={item.name}
                     disablePadding
@@ -50,7 +50,7 @@ export default function SideMenu({ toggle, setToggle }) {
                     </ListItemButton>
                   </ListItem>
                   <Divider />
-                </>
+                </div>
               ))}
             </List>
           </Box>
