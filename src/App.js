@@ -6,6 +6,7 @@ const Login = lazy(() => import("./Pages/Login"));
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const AddNewUser = lazy(() => import("./Pages/AddUser"));
 const UserList = lazy(() => import("./Pages/UserList"));
+const ViewUser = lazy(() => import("./Pages/ViewUser"));
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/user/add" element={<AddNewUser />} />
+            <Route path="/user/:userId" element={<ViewUser />} />
           </Routes>
         </BrowserRouter>
       </Suspense>

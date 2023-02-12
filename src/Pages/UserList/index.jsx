@@ -1,27 +1,36 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import Layout from "../../Components/Layout";
-import Box from "@mui/material/Box";
-import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { Container } from "@mui/system";
-import { Typography } from "@mui/material";
-import Button from '@mui/material/Button';
+import { DataGrid } from "@mui/x-data-grid";
+import {
+  Typography,
+  Box,
+  Button,
+  LinearProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Layout from "../../Components/Layout";
 
 function UserList() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [showLoader, setShowLoader] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const checkStatus = (value) => {
-    if (value === "active") {
-      return <span className="badge rounded-pill bg-primary">Active</span>;
-    } else if (value === "passive") {
-      return <span className="badge rounded-pill bg-danger">Passive</span>;
-    } else {
-      return (
-        <span className="badge rounded-pill bg-warning text-dark">Pending</span>
-      );
-    }
+  const gotoAddNewUser = () => {
+    navigate("/user/add");
+  };
+
+  const gotoUserDetails = (id) => {
+    navigate(`/user/${id}`);
   };
 
   const columns = [
@@ -68,6 +77,7 @@ function UserList() {
             variant="outlined"
             size="small"
             tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => gotoUserDetails(params.id)}
           >
             VIEW
           </Button>
@@ -77,6 +87,7 @@ function UserList() {
             size="small"
             style={{ marginLeft: 10 }}
             tabIndex={params.hasFocus ? 0 : -1}
+            onClick={() => setShowDeleteModal(true)}
           >
             DELETE
           </Button>
@@ -85,6 +96,8 @@ function UserList() {
     },
   ];
 
+  const deleteUser = () => {};
+
   const fetchUserList = async () => {
     try {
       const list = [];
@@ -92,6 +105,7 @@ function UserList() {
       querySnapshot.forEach((doc) => {
         list.push({ id: doc.id, ...doc.data() });
       });
+      setShowLoader(false);
       setUsers(list);
     } catch (err) {
       console.error(err);
@@ -104,13 +118,20 @@ function UserList() {
   return (
     <div>
       <Layout>
+        {showLoader && <LinearProgress />}
         <Container>
           <Box sx={{ height: 400, width: "100%", marginTop: "50px" }}>
-            <Box sx={{ display: 'flex' }}>
-              <Typography variant="h5" component="div">
-                USER LIST
-              </Typography>
-              <Button sx={{ alignItems: "flex-end" }} variant="contained">ADD USER</Button>
+            <Box sx={{ display: "flex", marginBottom: "20px" }}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" component="div">
+                  USER LIST
+                </Typography>
+              </Box>
+              <Box>
+                <Button variant="contained" onClick={gotoAddNewUser}>
+                  ADD USER
+                </Button>
+              </Box>
             </Box>
             <DataGrid
               rows={users}
@@ -123,6 +144,34 @@ function UserList() {
             />
           </Box>
         </Container>
+        <Dialog
+          open={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Are you sure to want to delete this user?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description"></DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              startIcon={<DeleteIcon />}
+              onClick={deleteUser}
+            >
+              YES
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => setShowDeleteModal(false)}
+            >
+              CANCEL
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Layout>
     </div>
   );

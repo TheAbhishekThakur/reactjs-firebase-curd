@@ -23,6 +23,7 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
+import { useForm } from "react-hook-form";
 
 
 function AddNewUser() {
@@ -37,6 +38,13 @@ function AddNewUser() {
     country: "",
   });
   const [showPassword, setShowPassword] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -58,26 +66,25 @@ function AddNewUser() {
     boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
   }));
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (data) => {
+    console.log("data", data);
     // To Insert data in Table
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
-        userData.email,
-        userData.password
+        data.email,
+        data.password
       );
       if (response) {
         // For Create New Table
         await setDoc(doc(db, "users", response.user.uid), {
-          username: userData.username,
-          name: userData.name,
-          email: userData.email,
-          phone: userData.phone,
-          password: userData.password,
-          address: userData.address,
-          country: userData.country,
+          username: data.username,
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          password: data.password,
+          address: data.address,
+          country: data.country,
           timeStamp: serverTimestamp(),
         });
         //   const formData = new FormData();
@@ -125,11 +132,11 @@ function AddNewUser() {
                       type="text"
                       label="Username"
                       variant="outlined"
+                      name="username"
                       fullWidth
-                      value={userData.username}
-                      onChange={(e) => {
-                        setUserData({...userData, username: e.target.value})
-                      }}
+                      {...register("username", { required: true })}
+                      error={Boolean(errors.username)}
+                      // helperText={emailValidate(errors.email?.type)}
                     />
                   </Box>
                 </Box>
@@ -140,12 +147,11 @@ function AddNewUser() {
                     <TextField
                       type="text"
                       label="Name"
+                      name="name"
                       variant="outlined"
                       fullWidth
-                      value={userData.name}
-                      onChange={(e) => {
-                        setUserData({...userData, name: e.target.value})
-                      }}
+                      {...register("name", { required: true })}
+                      error={Boolean(errors.name)}
                     />
                   </Box>
                   <Box flex={6}>
@@ -153,11 +159,10 @@ function AddNewUser() {
                       type="email"
                       label="Email"
                       variant="outlined"
+                      name="email"
                       fullWidth
-                      value={userData.email}
-                      onChange={(e) => {
-                        setUserData({...userData, email: e.target.value})
-                      }}
+                      {...register("email", { required: true })}
+                      error={Boolean(errors.email)}
                     />
                   </Box>
                 </Box>
@@ -169,11 +174,10 @@ function AddNewUser() {
                       type="phone"
                       label="Phone"
                       variant="outlined"
+                      name="phone"
                       fullWidth
-                      value={userData.phone}
-                      onChange={(e) => {
-                        setUserData({...userData, phone: e.target.value})
-                      }}
+                      {...register("phone", { required: true })}
+                      error={Boolean(errors.email)}
                     />
                   </Box>
                   <Box flex={6}>
@@ -181,10 +185,9 @@ function AddNewUser() {
                       fullWidth
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
-                      value={userData.password}
-                      onChange={(e) => {
-                        setUserData({...userData, password: e.target.value})
-                      }}
+                      name="password"
+                      {...register("password", { required: true })}
+                      error={Boolean(errors.password)}
                       endAdornment={
                         <InputAdornment position="end">
                           <IconButton
@@ -208,11 +211,10 @@ function AddNewUser() {
                       type="text"
                       label="Address"
                       variant="outlined"
+                      name="address"
                       fullWidth
-                      value={userData.address}
-                      onChange={(e) => {
-                        setUserData({...userData, address: e.target.value})
-                      }}
+                      {...register("address", { required: true })}
+                      error={Boolean(errors.address)}
                     />
                   </Box>
                   <Box flex={6}>
@@ -221,11 +223,9 @@ function AddNewUser() {
                       label="Country"
                       variant="outlined"
                       fullWidth
-                      value={userData.country}
-                      onChange={(e) => {
-                        console.log("e")
-                        setUserData({...userData, country: e.target.value})
-                      }}
+                      name="country"
+                      {...register("country", { required: true })}
+                      error={Boolean(errors.country)}
                     />
                   </Box>
                 </Box>
@@ -239,7 +239,7 @@ function AddNewUser() {
                   justifyContent: "center",
                 }}
               >
-                <Button variant="contained" onClick={onSubmit}>
+                <Button variant="contained" onClick={handleSubmit(onSubmit)}>
                   ADD USER
                 </Button>
               </Box>
